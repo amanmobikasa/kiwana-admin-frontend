@@ -1,7 +1,10 @@
+import { columns } from "@/common/common-table/columns";
+import  DataTable  from "@/common/common-table/data-table";
 import { DatePickerWithRange } from "@/common/date-range-picker";
 import CardCircleGraph from "@/components/customcomponents/card-circle-graph";
 import { MultipleRangeComponent } from "@/components/customcomponents/multiple-range-component";
-import { TooltipCustom } from "@/components/customcomponents/tooltip-custom";
+import { latest_order_json } from "@/json/latest-order-json";
+// import { TooltipCustom } from "@/components/customcomponents/tooltip-custom";
 import { BasicLayout } from "@/layout/basic-layout";
 import { Flex, Heading } from "@radix-ui/themes";
 
@@ -37,13 +40,20 @@ const DashboardPage = () => {
             sold_item="Total user sign to the ex iphones"
           />
         </Flex>
-        <div className="mt-3 ">
+        <div className="mt-3">
           <div className="grid grid-cols-3 justify-evenly gap-x-3">
-            <div className="col-span-2 w-full"></div>
+            <div className="col-span-2 w-full h-full">
+              <h1>insert graph here</h1>
+            </div>
             <div>
               <MultipleRangeComponent/>
             </div>
           </div>
+        </div>
+        <div>
+          <DataTable columnsHeadings={columns} columnsData={latest_order_json} />
+          {/* <DataTable /> */}
+
         </div>
       </BasicLayout>
     </>

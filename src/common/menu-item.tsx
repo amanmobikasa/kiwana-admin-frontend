@@ -1,6 +1,3 @@
-// import React from 'react'
-
-import { ReactElement } from "react"
 
 type MenuItemProps = {
     title : string,
