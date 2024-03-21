@@ -9,7 +9,7 @@ import {
 import { Badge } from "@radix-ui/themes";
 import { TooltipCustom } from "@/components/customcomponents/tooltip-custom";
 import { globalSorting } from "@/lib/global-sorting";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type DataTableTypes = {
   columnsHeadings: object[];
@@ -17,15 +17,23 @@ type DataTableTypes = {
 };
 
 const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
-    const [columnsDataState, setColumnsDataState] = useState(columnsData);
-    const [orderByState, setOrderByState] = useState<string>("asc");
+  const [columnsDataState, setColumnsDataState] = useState(columnsData);
+  const [orderByState, setOrderByState] = useState<any>("asc"); // asc | desc | null>("asc");
+  
+  // console.log("columns data", columnsDataState);
 
+  useEffect(()=>{
+    if(columnsData.length > 0){
+      setColumnsDataState(columnsData) 
+    }else return;
+ },[columnsData])
 
     const handleSortingTable = useCallback((dataType : any, accessorKey : string) => {
+      // console.log(accessorKey, dataType);
         setOrderByState(orderByState === "asc" ? "desc" : "asc")
-        const result = globalSorting(accessorKey, dataType, orderByState);
+        const result = globalSorting(accessorKey, dataType, orderByState, columnsDataState );
         setColumnsDataState(result)   
-    }, [setColumnsDataState, columnsDataState])
+    }, [setColumnsDataState, columnsDataState, columnsData])
 
   return (
     <>
@@ -73,8 +81,8 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
                       <input type="checkbox" className="h-4 w-4" />
                       <span>{cell_data.order_id}</span>
                     </Table.RowHeaderCell>
-                    {cell_data?.product_name &&
-                      cell_data?.product_name.map((data: any) => {
+                    {Array.isArray(cell_data?.product_name) ?
+                      cell_data.product_name.map((data: any) => {
                         const { image, name, quantity } = data;
                         return (
                           <>
@@ -96,7 +104,14 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
                             </Table.Cell>
                           </>
                         );
-                      })}
+                      }) : 
+                      <Table.Cell className="capitalize">
+                      {/* {cell_data?.product_name} */}
+                      <h1 className="capitalize font-[500] text-gray-800">
+                      {cell_data?.product_name}
+                                </h1>
+                    </Table.Cell>
+                      }
                     <Table.Cell className="capitalize">
                       {cell_data?.date}
                     </Table.Cell>
@@ -108,9 +123,12 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
                     <Table.Cell className="w-auto">
                       {cell_data?.status === "pending" ? (
                         <Badge color="yellow">{cell_data?.status}</Badge>
-                      ) : cell_data?.status === "processing" ? (
+                      ) : cell_data?.status === "processing" || cell_data?.status === "Low Stock"  ? (
                         <Badge color="blue">{cell_data?.status}</Badge>
-                      ) : cell_data?.status === "success" ? (
+                      ) : cell_data?.status === "Draft" ? (
+                        <Badge color="gray">{cell_data?.status}</Badge>
+                      )
+                       : cell_data?.status === "success" || cell_data?.status === "Published" ?  (
                         <Badge color="green">{cell_data?.status}</Badge>
                       ) : (
                         <Badge color="red">{cell_data?.status}</Badge>

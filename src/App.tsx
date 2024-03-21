@@ -5,6 +5,7 @@ import '@radix-ui/themes/styles.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import pages_routes from './Routes/Routes'
 import PrimaryLayout from './layout/primary-layout';
+import { Toaster } from "@/components/ui/toaster"
 const DashboardNavbar = React.lazy(() => import('./common/dashboard-navbar'));
 
 
@@ -14,10 +15,9 @@ function App() {
 
   return (
     <>
+    <Toaster />
     <BrowserRouter>
       <Suspense>
-        {/* contain the toast container */}
-        {/* <DashboardNavbar /> */}
         <PrimaryLayout>
         <DashboardNavbar />
         <Routes>
