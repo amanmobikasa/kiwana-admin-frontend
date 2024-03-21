@@ -10,6 +10,9 @@ import { Badge } from "@radix-ui/themes";
 import { TooltipCustom } from "@/components/customcomponents/tooltip-custom";
 import { globalSorting } from "@/lib/global-sorting";
 import { useCallback, useEffect, useState } from "react";
+import { AlertDialogAction, AlertDialogCancel, AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
+import { ModalWrapper } from "../modal-wrapper";
+import { globalDeleteFunction } from "@/lib/global-delete-function";
 
 type DataTableTypes = {
   columnsHeadings: object[];
@@ -19,8 +22,9 @@ type DataTableTypes = {
 const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
   const [columnsDataState, setColumnsDataState] = useState(columnsData);
   const [orderByState, setOrderByState] = useState<any>("asc"); // asc | desc | null>("asc");
+  const [showModal, setShowModal] = useState(false)
+  const [currentProductState, setCurrentProductState] = useState<any>({});
   
-  // console.log("columns data", columnsDataState);
 
   useEffect(()=>{
     if(columnsData.length > 0){
@@ -29,20 +33,36 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
  },[columnsData])
 
     const handleSortingTable = useCallback((dataType : any, accessorKey : string) => {
-      // console.log(accessorKey, dataType);
         setOrderByState(orderByState === "asc" ? "desc" : "asc")
         const result = globalSorting(accessorKey, dataType, orderByState, columnsDataState );
         setColumnsDataState(result)   
     }, [setColumnsDataState, columnsDataState, columnsData])
 
+    // handle delete the product.
+    const handleDeleteProduct = (e : any, product_obj : any) => {
+      setShowModal(true);
+      setCurrentProductState(product_obj) // setting the current product obj to state
+    }
+    const handleDeleteProductAction = () => {
+      const reuslt_after_delete = globalDeleteFunction(columnsDataState, currentProductState?.id)
+      setColumnsDataState(reuslt_after_delete) // setting the updated data to the state and render in table
+    }
+
   return (
     <>
+    {
+      showModal ? <ModalWrapper title="Delete Product" btnTitle="Delete" description="Do you really want to delete the product"> 
+        <div className="flex w-full gap-x-5 justify-end">
+          <AlertDialogCancel className="bg-gray-100 px-6 py-2 border-2 border-gray-200 hover:bg-gray-200">Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteProductAction} className="bg-red-500 px-6 text-white border-2 border-red-500 hover:bg-red-600">Delete</AlertDialogAction>
+        </div>
+        </ModalWrapper> : null}
       <Table.Root className="bg-white w-full rounded-xl mt-5 font-poppin">
         <Table.Header>
           <Table.Row className="h-[4rem]">
             {columnsHeadings &&
               columnsHeadings.map((heading: any, index: number) => {
-                // console.log(heading)
+
                 const { header, accessorKey, dataType } = heading;
                 return (
                   <>
@@ -139,13 +159,15 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
                       {/* insert icons and give me product id */}
                       <div className="flex gap-2 items-center ">
                         <TooltipCustom tooltipContent="View the full product">
-                          <EyeOpenIcon className="h-7 w-7 hover:bg-gray-200 p-1 rounded-full" />
+                          <EyeOpenIcon  className="h-7 w-7 hover:bg-gray-200 p-1 rounded-full" />
                         </TooltipCustom>
                         <TooltipCustom tooltipContent="Edit the product">
                           <Pencil1Icon className="h-7 w-7 hover:bg-gray-200 p-1 rounded-full" />
                         </TooltipCustom>
                         <TooltipCustom tooltipContent="Delete the product">
-                          <TrashIcon className="h-7 w-7 hover:bg-gray-200 p-1 rounded-full" />
+                          <AlertDialogTrigger>
+                            <TrashIcon onClick={(e)=>handleDeleteProduct(e, cell_data)} className="h-7 w-7 hover:bg-gray-200 p-1 rounded-full" />
+                          </AlertDialogTrigger>
                         </TooltipCustom>
                       </div>
                     </Table.Cell>

@@ -6,6 +6,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import pages_routes from './Routes/Routes'
 import PrimaryLayout from './layout/primary-layout';
 import { Toaster } from "@/components/ui/toaster"
+import { AlertDialog } from '@radix-ui/react-alert-dialog';
 const DashboardNavbar = React.lazy(() => import('./common/dashboard-navbar'));
 
 
@@ -18,6 +19,7 @@ function App() {
     <Toaster />
     <BrowserRouter>
       <Suspense>
+        <AlertDialog>
         <PrimaryLayout>
         <DashboardNavbar />
         <Routes>
@@ -30,6 +32,7 @@ function App() {
           ))}
         </Routes>
         </PrimaryLayout>
+        </AlertDialog>
       </Suspense>
     </BrowserRouter>
       
