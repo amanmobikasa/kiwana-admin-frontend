@@ -6,49 +6,63 @@ import { ButtonCommon } from "./button-common";
 import { useDispatch } from "react-redux";
 import { addProduct } from "@/redux/slices/product-CRUD";
 import { useToast } from "../ui/use-toast";
-import phone_img from '../../assets/phone.png'
-
-
+import phone_img from "../../assets/phone.png";
 
 interface AddtoProductsFormProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode | React.ReactNode[];
   formJson?: object[] | object;
+  valueJsonData?: object | object[];
 }
 
 export const AddtoProductsForm = ({
   children,
   formJson,
+  valueJsonData,
 }: AddtoProductsFormProps) => {
   const [errorState, setErrorState] = useState<Array<any>>([]);
   const [formJsonState, setFormJsonState] = useState<any>(formJson);
   const [addToProductState, setAddtoProductState] = useState<any>({});
+  const [updatedProductJson, setUpdatedProductJson] = useState<any>(valueJsonData);
   const dispatch = useDispatch();
   const { toast } = useToast();
 
-  const handleChange = ({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>, data: any) =>
-    setAddtoProductState({ ...addToProductState, [data?.name]: name === "product_name" ? [{ name, image: phone_img, quantity: 3 }] : value });
+  // console.log("formJsonState", formJsonState)
 
+  const handleChange = ({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>, data: any) => {
+    if(updatedProductJson?.id){
+      setAddtoProductState({
+        ...updatedProductJson,
+        [data?.name]:
+          name === "product_name"
+            ? [{ value, image: phone_img, quantity: 3 }]
+            : value,
+      });
 
-  console.log("data", addToProductState);
-
-
-//   console.log("addToProductState", addToProductState);
-
+    }
+    setAddtoProductState({
+      ...addToProductState,
+      [data?.name]:
+        name === "product_name"
+          ? [{ value, image: phone_img, quantity: 3 }]
+          : value,
+    });
+  }
   const handleFormSubmit = (event: any) => {
     event.preventDefault();
-    dispatch(addProduct(addToProductState)); // setting the data in redux
+    if (addToProductState?.producd_name !== "") {
+      dispatch(addProduct(addToProductState)); // setting the data in redux
+    }
     toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-      })
-    // const result = globalAddFunction(product_management_json, addToProductState);
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description: "There was a problem with your request.",
+    });
   };
 
   return (
     <>
       <FormWrapper onSubmit={handleFormSubmit}>
-        {formJsonState.map((data: any, index: number) => {
+        {formJsonState?.map((data: any, index: number) => {
           return (
             <>
               <div key={index} className="space-y-2 mb-3">
@@ -59,7 +73,7 @@ export const AddtoProductsForm = ({
                   onChange={(e) => handleChange(e, data)}
                   type={data?.type}
                   name={data?.name}
-                  value={addToProductState?.producd_name}
+                  value={updatedProductJson?.[data?.name] || addToProductState?.producd_name}
                   placeholder={data?.label + " here..."}
                   className="w-full rounded-xl border-gray-500 bg-indigo-100 placeholder:text-gray-600 placeholder:text-xs"
                 />

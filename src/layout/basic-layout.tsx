@@ -1,7 +1,7 @@
 
 // typing the basic layout props here
 interface basicLayoutProps {
-    children : JSX.Element | JSX.Element[] | null
+    children : React.ReactNode | React.ReactNode | null
 }
 
 export const BasicLayout =({children} : basicLayoutProps)=> {

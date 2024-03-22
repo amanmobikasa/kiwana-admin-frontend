@@ -3,7 +3,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    product : {} as any
+    product : {} as any,
+    updateProduct : {} as any
 }
 
 const productCRUDSlice = createSlice({
@@ -12,10 +13,13 @@ const productCRUDSlice = createSlice({
     reducers : {
         addProduct : (state, action) => {
             state.product = action.payload
+        },
+        updateProduct : (state, action) => {
+            state.updateProduct = action.payload
         }
         // contain all the cruds in this reducer
     }
     
 })
-export const { addProduct } = productCRUDSlice.actions
+export const { addProduct, updateProduct } = productCRUDSlice.actions
 export default productCRUDSlice.reducer 
