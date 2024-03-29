@@ -1,12 +1,13 @@
 import { Text } from "@radix-ui/themes";
 import { Input } from "../ui/input";
 import { FormWrapper } from "./form-wrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ButtonCommon } from "./button-common";
 import { useDispatch } from "react-redux";
-import { addProduct } from "@/redux/slices/product-CRUD";
+import { addProduct, updateProduct } from "@/redux/slices/product-CRUD";
 import { useToast } from "../ui/use-toast";
 import phone_img from "../../assets/phone.png";
+import { product_management_json } from "@/json/product-management-json";
 
 interface AddtoProductsFormProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -24,39 +25,45 @@ export const AddtoProductsForm = ({
   const [addToProductState, setAddtoProductState] = useState<any>({});
   const [updatedProductJson, setUpdatedProductJson] = useState<any>(valueJsonData);
   const dispatch = useDispatch();
-  const { toast } = useToast();
+  // const { toast } = useToast();
 
-  // console.log("formJsonState", formJsonState)
+
+  useEffect(()=>{
+    if(valueJsonData !== undefined){
+      setAddtoProductState(valueJsonData)
+    }
+  },[valueJsonData])
+  
+  console.log("formJsonState", formJsonState) 
 
   const handleChange = ({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>, data: any) => {
-    if(updatedProductJson?.id){
-      setAddtoProductState({
-        ...updatedProductJson,
-        [data?.name]:
-          name === "product_name"
-            ? [{ value, image: phone_img, quantity: 3 }]
-            : value,
-      });
-
-    }
     setAddtoProductState({
       ...addToProductState,
+      id : product_management_json.length + 1,
       [data?.name]:
         name === "product_name"
-          ? [{ value, image: phone_img, quantity: 3 }]
+          ? [{ "name" : value, image: phone_img, quantity: 3 }]
           : value,
     });
   }
+
+  console.log("addToProductStateChange", addToProductState)
+
+
   const handleFormSubmit = (event: any) => {
     event.preventDefault();
-    if (addToProductState?.producd_name !== "") {
-      dispatch(addProduct(addToProductState)); // setting the data in redux
+    if(updatedProductJson?.status !== undefined){ // condition for update the product
+      dispatch(updateProduct(addToProductState))
+    }else{
+      if (addToProductState?.status !== "") { // condition for adding the product
+        dispatch(addProduct(addToProductState)); // setting the data in redux
+      }
     }
-    toast({
-      variant: "destructive",
-      title: "Uh oh! Something went wrong.",
-      description: "There was a problem with your request.",
-    });
+    // toast({
+    //   variant: "destructive",
+    //   title: "Uh oh! Something went wrong.",
+    //   description: "There was a problem with your request.",
+    // });
   };
 
   return (
@@ -73,7 +80,7 @@ export const AddtoProductsForm = ({
                   onChange={(e) => handleChange(e, data)}
                   type={data?.type}
                   name={data?.name}
-                  value={updatedProductJson?.[data?.name] || addToProductState?.producd_name}
+                  value={addToProductState[data?.name === "product_name" ? `${addToProductState[data?.name]?.[0]?.name}` : data?.name]}
                   placeholder={data?.label + " here..."}
                   className="w-full rounded-xl border-gray-500 bg-indigo-100 placeholder:text-gray-600 placeholder:text-xs"
                 />

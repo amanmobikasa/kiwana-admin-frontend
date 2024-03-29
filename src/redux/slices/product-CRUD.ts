@@ -16,10 +16,13 @@ const productCRUDSlice = createSlice({
         },
         updateProduct : (state, action) => {
             state.updateProduct = action.payload
+        },
+        deleteProduct : (state, action) => {
+            state.updateProduct = action.payload
         }
         // contain all the cruds in this reducer
     }
     
 })
-export const { addProduct, updateProduct } = productCRUDSlice.actions
+export const { addProduct, updateProduct, deleteProduct } = productCRUDSlice.actions
 export default productCRUDSlice.reducer 

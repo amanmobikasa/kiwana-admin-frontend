@@ -1,6 +1,7 @@
 import { columns } from "@/common/common-table/columns";
 import  DataTable  from "@/common/common-table/data-table";
 import { DatePickerWithRange } from "@/common/date-range-picker";
+import {BarChartComponent} from "@/components/customcomponents/bar-chart";
 import CardCircleGraph from "@/components/customcomponents/card-circle-graph";
 import { MultipleRangeComponent } from "@/components/customcomponents/multiple-range-component";
 import { latest_order_json } from "@/json/latest-order-json";
@@ -43,7 +44,7 @@ const DashboardPage = () => {
         <div className="mt-3">
           <div className="grid grid-cols-3 justify-evenly gap-x-3">
             <div className="col-span-2 w-full h-full">
-              <h1>insert graph here</h1>
+              <BarChartComponent />
             </div>
             <div>
               <MultipleRangeComponent/>
