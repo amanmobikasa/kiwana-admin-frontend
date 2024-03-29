@@ -5,11 +5,13 @@ import  { useState, ComponentProps  } from "react";
 interface TabComponentProps {
   tabList: object[];
   tabValue? : string
-  children ? : React.ReactNode | React.ReactNode[] 
+  children ? : React.ReactNode | React.ReactNode[];
+  getFilterData ? : (data: any) => void ;
 }
 
-export const TabComponent = ({ tabList,  children }: TabComponentProps) => {
+export const TabComponent = ({ tabList, tabValue, getFilterData,  children }: TabComponentProps) => {
   const [tabListState, setTabListState] = useState<object[]>(tabList);
+  // console.log("tablist", tabList);
   return (
     <>
       <div>
@@ -19,26 +21,27 @@ export const TabComponent = ({ tabList,  children }: TabComponentProps) => {
               return (
                 <>
                   <TabsTrigger  
+                  onClick={()=> getFilterData(tab?.title)}
                     key={i}
-                    value={tab?.title ? tab?.title : "All Products"}
+                    value={tab?.slug ? tab?.slug : "All Products"}
                     className="bg-white text-text-primary-gray  px-3 py-3 "
                   >
                     {tab?.title}
                   </TabsTrigger>
                 </>
-              );
+              )
             })}
           </TabsList>
-          {tabListState &&
+          {/* {tabListState &&
             tabListState.map((tab: any, i: number) => {
               return (
                 <>
-                  <TabsContent key={i} value={tab?.title}>
-                    {children}
+                  <TabsContent key={i} value={tab?.slug}>
+                    
                   </TabsContent>
                 </>
               );
-            })}
+            })} */}
         </Tabs>
       </div>
     </>

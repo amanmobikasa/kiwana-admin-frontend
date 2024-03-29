@@ -34,7 +34,6 @@ export const AddtoProductsForm = ({
     }
   },[valueJsonData])
   
-  console.log("formJsonState", formJsonState) 
 
   const handleChange = ({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>, data: any) => {
     setAddtoProductState({
@@ -46,8 +45,6 @@ export const AddtoProductsForm = ({
           : value,
     });
   }
-
-  console.log("addToProductStateChange", addToProductState)
 
 
   const handleFormSubmit = (event: any) => {

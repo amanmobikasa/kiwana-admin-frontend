@@ -29,21 +29,33 @@ import {
 } from "@/components/ui/sheet";
 import { AddtoProductsForm } from "@/components/customcomponents/add-to-products-form";
 import { AddtoProductsFormJson } from "@/pages/product-management";
-import { globalFilterData } from "@/lib/global-filter-data";
+import { filterTableData, globalFilterData } from "@/lib/global-filter-data";
 
 type DataTableTypes = {
   columnsHeadings: object[];
   columnsData: object[];
+  filter_status : string
 };
 
-const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
+const DataTable = ({ columnsData, columnsHeadings, filter_status }: DataTableTypes) => {
   const [columnsDataState, setColumnsDataState] = useState(columnsData);
   const [orderByState, setOrderByState] = useState<any>("asc"); // asc | desc | null>("asc");
   const [showModal, setShowModal] = useState(false);
   const [showSlider, setShowSlider] = useState<true | false>(false);
   const [currentProductState, setCurrentProductState] = useState<any>({});
   const [updateProductState, setUpdateProductState] = useState<object>({})
+  const [filterState, setFilterState] = useState(filter_status)
   const dispatch = useDispatch();
+
+  
+
+  useEffect(()=>{
+    if(filter_status !== undefined || filter_status !== ""){
+      setFilterState(filter_status)
+    }else return;
+  },[filter_status])
+
+ 
 
   useEffect(() => {
     if (columnsData.length > 0) {
@@ -61,6 +73,18 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
       setColumnsDataState(result_data)
     }
   },[updated_product_data])
+
+  
+
+  useEffect(() => {
+    if (filterState !== undefined && filterState !== "") {
+      if (columnsData.length > 0) {
+        const result = filterTableData(columnsData, filterState);
+        setColumnsDataState(result);
+      }
+    }
+  }, [filterState, columnsData, filter_status]);
+
 
   const handleSortingTable = useCallback(
     (dataType: any, accessorKey: string) => {
