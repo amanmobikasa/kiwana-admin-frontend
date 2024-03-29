@@ -17,8 +17,8 @@ import {
 } from "@radix-ui/react-alert-dialog";
 import { ModalWrapper } from "../modal-wrapper";
 import { globalDeleteFunction } from "@/lib/global-delete-function";
-import { useDispatch } from "react-redux";
-import { updateProduct } from "@/redux/slices/product-CRUD";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProduct, updateProduct } from "@/redux/slices/product-CRUD";
 import { SideBarSlider } from "@/components/customcomponents/sidebar-slider";
 import {
   SheetContent,
@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/sheet";
 import { AddtoProductsForm } from "@/components/customcomponents/add-to-products-form";
 import { AddtoProductsFormJson } from "@/pages/product-management";
+import { globalFilterData } from "@/lib/global-filter-data";
 
 type DataTableTypes = {
   columnsHeadings: object[];
@@ -49,6 +50,17 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
       setColumnsDataState(columnsData);
     } else return;
   }, [columnsData]);
+
+  // for updating the product data in the table
+  const updated_product_data = useSelector((state:any)=> state.productCRUD.updateProduct)
+
+  // console.log("columnsDataState", columnsDataState)
+  useEffect(()=>{
+    if(updated_product_data?.product_name){
+      const result_data = globalFilterData(columnsDataState, updated_product_data)
+      setColumnsDataState(result_data)
+    }
+  },[updated_product_data])
 
   const handleSortingTable = useCallback(
     (dataType: any, accessorKey: string) => {
@@ -74,6 +86,7 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
       columnsDataState,
       currentProductState?.id
     );
+    dispatch(deleteProduct({})) // remove the update product reducer
     setColumnsDataState(reuslt_after_delete); // setting the updated data to the state and render in table
   };
 
@@ -81,7 +94,6 @@ const DataTable = ({ columnsData, columnsHeadings }: DataTableTypes) => {
   const handleEditProduct = (e: any, product_obj: any) => {
     setShowSlider(true);
     setUpdateProductState(product_obj); // set the product obj to state for update
-    dispatch(updateProduct(product_obj));
   };
 
 

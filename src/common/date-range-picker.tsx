@@ -30,12 +30,12 @@ export function DatePickerWithRange({
             variant={"ghost"}
             className={cn(
               "w-[300px] justify-start text-left text-text-primary-gray font-[500] space-x-2",
-              !date && "text-muted-foreground"
+              !date && "text-indigo-500"
             )}
           >
             {/* <CalendarIcon className="mr-2 h-auto w-auto" /> */}
             <ChevronDown className="ml-auto h-4 w-4 "/>
-            <span>{date?.from ? (
+            <span className="">{date?.from ? (
               date.to ? (
                 <>
                   {format(date.from, "LLL dd, y")} -{" "}
@@ -52,7 +52,8 @@ export function DatePickerWithRange({
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
-            initialFocus
+            className="bg-white"
+            initialFocus={true}
             mode="range"
             defaultMonth={date?.from}
             selected={date}
