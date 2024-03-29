@@ -5,7 +5,7 @@ import DataTable from "@/common/common-table/data-table";
 import { product_management_columns } from "@/common/common-table/product-management-columns";
 // import { latest_order_json } from "@/json/latest-order-json";
 import { product_management_json } from "@/json/product-management-json";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { globalAddFunction } from "@/lib/global-add-function"
 import { DatePickerDemo } from "./date-picker-button";
@@ -19,16 +19,26 @@ interface TabListDateFilterProps {
 export const TabListDateFilter = ({}: TabListDateFilterProps) => {
 
   const [ProductManagementJsonState, setProductManagementJsonState] = useState<object[]>(product_management_json); // setting the product json to the state.
+  const [filtersState, setFilterState] = useState<any>("");
   const added_product_object = useSelector((state:any)=>  state.productCRUD.product);
 
   useEffect(()=>{
     // enter all the logic of update the table.
     if(added_product_object?.product_name){
       const result = globalAddFunction(ProductManagementJsonState, added_product_object);
-      console.log("result", result);
+      // console.log("result", result);
       setProductManagementJsonState(result);
     }
   },[added_product_object])
+
+  const getFilterData = useCallback((filter_state : any) => {
+    // console.log(filter_state);
+    if(filter_state !== ""){
+      setFilterState(filter_state)
+    }else{
+      setFilterState("All Products")
+    }
+  },[filtersState, setFilterState])
 
 
   return (
@@ -37,9 +47,7 @@ export const TabListDateFilter = ({}: TabListDateFilterProps) => {
       <div className="relative w-full h-fit overflow-hidden font-poppin mt-4">
         <div className="w-full p-2 flex items-center justify-between">
           <div>
-            <TabComponent tabList={tab_list_json}>
-              <h1>{"hello world"}</h1>
-            </TabComponent>
+            <TabComponent tabList={tab_list_json} getFilterData={getFilterData} />
           </div>
           <div className="space-x-5">
             <DatePickerDemo /> 
@@ -53,6 +61,7 @@ export const TabListDateFilter = ({}: TabListDateFilterProps) => {
           <DataTable
             columnsData={ProductManagementJsonState}
             columnsHeadings={product_management_columns}
+            filter_status={filtersState}
           />
         </div>
       </div>
@@ -64,6 +73,7 @@ export const TabListDateFilter = ({}: TabListDateFilterProps) => {
 interface tab_list_json_type {
   id: number;
   title: string;
+  slug : string;
   link_href: string;
 }
 
@@ -71,26 +81,31 @@ export const tab_list_json: tab_list_json_type[] = [
   {
     id: 1,
     title: "All Products",
+    slug : "all-products",
     link_href: "/",
   },
   {
     id: 2,
     title: "Published",
+    slug : "published",
     link_href: "/",
   },
   {
     id: 3,
     title: "Low Stock",
+    slug : "low-stock",
     link_href: "/",
   },
   {
     id: 4,
     title: "Draft",
+    slug : "draft",
     link_href: "/",
   },
   {
     id: 5,
     title: "Out of Stock",
+    slug : "out-of-stock",
     link_href: "/",
   },
 ];

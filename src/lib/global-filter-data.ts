@@ -4,6 +4,11 @@ export const globalFilterData = (data: any, updateObj: any) => {
 }
 
 
+export const filterTableData = (data: any, filter_string: any) => {
+    return data.filter((el : any) => el.status === filter_string);
+}
+
+
 // example of how to use globalFilterData function
 
 // const data = [
