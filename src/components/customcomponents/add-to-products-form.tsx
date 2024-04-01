@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import { ButtonCommon } from "./button-common";
 import { useDispatch } from "react-redux";
 import { addProduct, updateProduct } from "@/redux/slices/product-CRUD";
-import { useToast } from "../ui/use-toast";
+// import { useToast } from "../ui/use-toast";
 import phone_img from "../../assets/phone.png";
 import { product_management_json } from "@/json/product-management-json";
+import { SelectInput } from "@/common/select-input";
 
 interface AddtoProductsFormProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -24,6 +25,7 @@ export const AddtoProductsForm = ({
   const [formJsonState, setFormJsonState] = useState<any>(formJson);
   const [addToProductState, setAddtoProductState] = useState<any>({});
   const [updatedProductJson, setUpdatedProductJson] = useState<any>(valueJsonData);
+  const [statusProduct, setStatusProduct]  = useState<any>("Published")
   const dispatch = useDispatch();
   // const { toast } = useToast();
 
@@ -35,16 +37,22 @@ export const AddtoProductsForm = ({
   },[valueJsonData])
   
 
-  const handleChange = ({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>, data: any) => {
+  const handleChange = ({ target: { value, name } }: any, data: any) => {
+    console.log("value", value)
     setAddtoProductState({
       ...addToProductState,
       id : product_management_json.length + 1,
+      status : statusProduct,
       [data?.name]:
         name === "product_name"
           ? [{ "name" : value, image: phone_img, quantity: 3 }]
           : value,
     });
   }
+
+  console.log("onchnage", addToProductState)
+
+
 
 
   const handleFormSubmit = (event: any) => {
@@ -67,6 +75,15 @@ export const AddtoProductsForm = ({
     <>
       <FormWrapper onSubmit={handleFormSubmit}>
         {formJsonState?.map((data: any, index: number) => {
+          if(data?.name === "status"){
+            return (
+              <SelectInput 
+              optionArr={data?.optionValue ? data?.optionValue : []}
+              onValueChange={(data)=> setStatusProduct(data)}
+              // onChange={(e) => handleChange(e, data)}
+              />
+            )
+          }else{
           return (
             <>
               <div key={index} className="space-y-2 mb-3">
@@ -79,7 +96,7 @@ export const AddtoProductsForm = ({
                   name={data?.name}
                   value={addToProductState[data?.name === "product_name" ? `${addToProductState[data?.name]?.[0]?.name}` : data?.name]}
                   placeholder={data?.label + " here..."}
-                  className="w-full rounded-xl border-gray-500 bg-indigo-100 placeholder:text-gray-600 placeholder:text-xs"
+                  className="w-full rounded-xl border-gray-500 bg-indigo-100 placeholder:text-black placeholder:text-sm"
                 />
                 {errorState.length > 0 && (
                   <Text as="span" className="text-red-500">
@@ -88,7 +105,7 @@ export const AddtoProductsForm = ({
                 )}
               </div>
             </>
-          );
+          )}
         })}
         <div className="w-full flex gap-x-5 mt-[3rem]">
           <ButtonCommon

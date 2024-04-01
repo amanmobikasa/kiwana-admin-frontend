@@ -19,6 +19,7 @@ const productCRUDSlice = createSlice({
         },
         deleteProduct : (state, action) => {
             state.updateProduct = action.payload
+            state.product = {}
         }
         // contain all the cruds in this reducer
     }

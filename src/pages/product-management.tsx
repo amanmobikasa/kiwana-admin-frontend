@@ -51,6 +51,9 @@ const ProductManagement = ({}: ProductManagementProps) => {
         </div>
         <div>
           <DashboardHeadingCommon
+          headingState="Products"
+          buttonOneText="Export"
+          buttonTwoText="Add to Product"
             clickAddtoProduct={(e) => handleSideBarSlider(e)}
           />
         </div>
@@ -80,7 +83,7 @@ export const AddtoProductsFormJson = [
     value: "",
     datatype: "number",
     label: "Enter Product SKU",
-    type: "text",
+    type: "number",
     name: "order_id",
   },
   {
@@ -95,7 +98,7 @@ export const AddtoProductsFormJson = [
     id: 4,
     value: "",
     label: "Enter Product Stock",
-    type: "text",
+    type: "number",
     name: "payment_date",
     datatype: "number",
   },
@@ -104,7 +107,7 @@ export const AddtoProductsFormJson = [
     value: "",
     datatype: "number",
     label: "Enter Product Price",
-    type: "text",
+    type: "number",
     name: "total_amount",
   },
   {
@@ -112,6 +115,7 @@ export const AddtoProductsFormJson = [
     value: "",
     datatype: "string",
     label: "Enter Product Status",
+    optionValue : ["Published", "Low Stock", "Draft", "Out of Stock"],
     type: "text",
     name: "status",
   },
