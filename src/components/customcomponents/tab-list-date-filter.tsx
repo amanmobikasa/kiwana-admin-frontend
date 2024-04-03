@@ -32,11 +32,10 @@ export const TabListDateFilter = ({}: TabListDateFilterProps) => {
   },[added_product_object])
 
   const getFilterData = useCallback((filter_state : any) => {
-    // console.log(filter_state);
     if(filter_state !== ""){
       setFilterState(filter_state)
     }else{
-      setFilterState("All Products")
+      setFilterState("")
     }
   },[filtersState, setFilterState])
 
@@ -61,7 +60,7 @@ export const TabListDateFilter = ({}: TabListDateFilterProps) => {
           <DataTable
             columnsData={ProductManagementJsonState}
             columnsHeadings={product_management_columns}
-            filter_status={filtersState}
+            filter_status={filtersState} // optional
           />
         </div>
       </div>

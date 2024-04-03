@@ -34,7 +34,7 @@ import { filterTableData, globalFilterData } from "@/lib/global-filter-data";
 type DataTableTypes = {
   columnsHeadings: object[];
   columnsData: object[];
-  filter_status : string
+  filter_status? : string
 };
 
 const DataTable = ({ columnsData, columnsHeadings, filter_status }: DataTableTypes) => {
@@ -239,15 +239,15 @@ const DataTable = ({ columnsData, columnsHeadings, filter_status }: DataTableTyp
                         </h1>
                       </Table.Cell>
                     )}
-                    <Table.Cell className="capitalize">
+                    {cell_data?.date && <Table.Cell className="capitalize">
                       {cell_data?.date}
-                    </Table.Cell>
-                    <Table.Cell className="capitalize">
+                    </Table.Cell>}
+                    {cell_data?.customer_name && <Table.Cell className="capitalize">
                       {cell_data?.customer_name}
-                    </Table.Cell>
-                    <Table.Cell>{cell_data?.total_amount}</Table.Cell>
-                    <Table.Cell>{cell_data?.payment_date}</Table.Cell>
-                    <Table.Cell className="w-auto">
+                    </Table.Cell>}
+                    {cell_data?.total_amount ? <Table.Cell>{cell_data?.total_amount}</Table.Cell> : null}
+                   {cell_data?.payment_date ? <Table.Cell>{cell_data?.payment_date}</Table.Cell> : null}
+                    {cell_data?.status && <Table.Cell className="w-auto">
                       {cell_data?.status === "pending" ? (
                         <Badge color="yellow">{cell_data?.status}</Badge>
                       ) : cell_data?.status === "processing" ||
@@ -262,7 +262,7 @@ const DataTable = ({ columnsData, columnsHeadings, filter_status }: DataTableTyp
                         <Badge color="red">{cell_data?.status}</Badge>
                       )}
                       {/* <Badge color="orange">{cell_data?.status}</Badge> */}
-                    </Table.Cell>
+                    </Table.Cell>}
                     <Table.Cell>
                       {/* insert icons and give me product id */}
                       <div className="flex gap-2 items-center ">
