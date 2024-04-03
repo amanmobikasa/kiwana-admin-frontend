@@ -4,13 +4,13 @@ import { RangeComp } from "@/common/range-comp"
 
 export const MultipleRangeComponent =()=> {
   return <>
-    <div className="w-full h-[22rem] bg-white aspect-square relative overflow-hidden rounded-xl">
+    <div className="w-full h-[25.7rem] bg-white aspect-square relative overflow-hidden rounded-xl">
         <div className="p-[1rem] w-full h-full space-y-[1rem]">
             <div>
                 <Heading as="h5" weight={"medium"} className="font-poppin text-x;">Most Sold Items</Heading>
             </div>
             <div className="">
-                <Flex className="w-full h-full" direction={"column"} display={"flex"} gap={"4"}>
+                <Flex className="w-full h-full" direction={"column"} display={"flex"} gap={"6"}>
                 {
                     multiple_range_comp_json.map((item, i)=>{
                         return <RangeComp

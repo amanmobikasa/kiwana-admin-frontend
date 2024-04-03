@@ -42,11 +42,12 @@ export const AddtoProductsForm = ({
     setAddtoProductState({
       ...addToProductState,
       id : product_management_json.length + 1,
-      status : statusProduct,
       [data?.name]:
         name === "product_name"
           ? [{ "name" : value, image: phone_img, quantity: 3 }]
           : value,
+      status : statusProduct,
+
     });
   }
 

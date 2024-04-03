@@ -18,7 +18,7 @@ export const RangeComp =({category,percentage,range, tooltipContent} : RangeComp
         </div>
         <TooltipCustom tooltipContent={tooltipContent}>
         <div className="relative w-full h-2 rounded-xl bg-bg-primary-bg-gray ">
-            <div className={`absolute top-0 left-0 z-20 h-full rounded-full bg-indigo-600 ${range}`}></div>
+            <div className={`absolute top-0 left-0 z-20 h-full rounded-full bg-indigo-600 transition-all  ease-in-out duration-500 delay-300 ${range}`}></div>
         </div>
         </TooltipCustom>
     </div>

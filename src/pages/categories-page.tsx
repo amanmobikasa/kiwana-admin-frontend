@@ -1,7 +1,10 @@
+import DataTable from "@/common/common-table/data-table";
 import { DashboardHeadingCommon } from "@/common/dashboard-heading-common";
 import { HeaderComponent } from "@/common/header-component";
 import { AddtoProductsForm } from "@/components/customcomponents/add-to-products-form";
 import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { category_management_columns_data } from "@/json/category-columns-json";
+import { category_management_columns } from "@/json/category-header-json";
 import { BasicLayout } from "@/layout/basic-layout";
 import { useState } from "react";
 
@@ -23,7 +26,7 @@ const CategoriesPage = () => {
         {showSideBarSlider ? (
           <SheetContent className="bg-bg-primary-bg-gray font-poppin">
             <SheetHeader>
-              <SheetTitle>Add the Products here</SheetTitle>
+              <SheetTitle>Add the Categories here</SheetTitle>
               <SheetDescription>
                 <AddtoProductsForm formJson={formJsonField} />
               </SheetDescription>
@@ -40,6 +43,14 @@ const CategoriesPage = () => {
           buttonTwoText="Create Category"
           clickAddtoProduct={(e) => handleSideBarSlider(e)}
           />
+        </div>
+        <div>
+          <div>
+            <DataTable 
+              columnsData={category_management_columns_data}
+              columnsHeadings={category_management_columns}
+            />
+          </div>
         </div>
         
       </BasicLayout>
