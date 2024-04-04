@@ -13,8 +13,8 @@ const DashboardPage = () => {
   return (
     <>
       <BasicLayout>
-        <div className="w-full flex justify-between items-center">
-          <Heading as="h1" className="text-gray-800">
+        <div className="w-full flex justify-between items-center space-y-[3rem]">
+          <Heading as="h1" className="text-gray-800 font-[600] font-poppin">
             Dashboard
           </Heading>
           <div>

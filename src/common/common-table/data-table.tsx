@@ -30,6 +30,8 @@ import {
 import { AddtoProductsForm } from "@/components/customcomponents/add-to-products-form";
 import { AddtoProductsFormJson } from "@/pages/product-management";
 import { filterTableData, globalFilterData } from "@/lib/global-filter-data";
+import { numberPrefixDollar } from "@/lib/number-prefix-dollar";
+import { globalDateConvert } from "@/lib/global-date-convert";
 
 type DataTableTypes = {
   columnsHeadings: object[];
@@ -235,7 +237,7 @@ const DataTable = ({ columnsData, columnsHeadings, filter_status }: DataTableTyp
                       <Table.Cell className="capitalize">
                         {/* {cell_data?.product_name} */}
                         <h1 className="capitalize font-[500] text-gray-800">
-                          {cell_data?.product_name}
+                          {cell_data?.product_name} 
                         </h1>
                       </Table.Cell>
                     )}
@@ -245,8 +247,9 @@ const DataTable = ({ columnsData, columnsHeadings, filter_status }: DataTableTyp
                     {cell_data?.customer_name && <Table.Cell className="capitalize">
                       {cell_data?.customer_name}
                     </Table.Cell>}
-                    {cell_data?.total_amount ? <Table.Cell>{cell_data?.total_amount}</Table.Cell> : null}
-                   {cell_data?.payment_date ? <Table.Cell>{cell_data?.payment_date}</Table.Cell> : null}
+                    {cell_data?.total_amount ? <Table.Cell>{numberPrefixDollar(cell_data?.total_amount)}</Table.Cell> : null}
+                   {cell_data?.payment_date ? <Table.Cell>{cell_data?.payment_date}
+                   </Table.Cell> : null}
                     {cell_data?.status && <Table.Cell className="w-auto">
                       {cell_data?.status === "pending" ? (
                         <Badge color="yellow">{cell_data?.status}</Badge>
