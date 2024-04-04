@@ -1,5 +1,6 @@
 import { Heading } from "@radix-ui/themes";
 import { TooltipCustom } from "./tooltip-custom";
+import { numberPrefixDollar } from "@/lib/number-prefix-dollar";
 
 // insert the card circke graph props here
 type CardCircleGraphProps = {
@@ -28,8 +29,8 @@ const CardCircleGraph = ({
               </span>
             </div>
             <div>
-              <Heading as="h1" className="font-[600]  font-poppin">
-                ${rupees}
+              <Heading as="h1" className="font-[600] font-poppin">
+                 {numberPrefixDollar(rupees)}
               </Heading>
             </div>
             <div>
@@ -39,7 +40,7 @@ const CardCircleGraph = ({
             </div>
           </div>
           <div>
-            <TooltipCustom className="text-text-primary-gray"  tooltipContent={sold_item}>
+            <TooltipCustom className="text-text-primary-gray" tooltipContent={sold_item}>
               <div className={`w-[5rem] h-[5rem] rounded-full flex items-center justify-center bg-white border-[1rem] ${color} relative`}></div>
             </TooltipCustom>
           </div>
