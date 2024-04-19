@@ -3,7 +3,7 @@ import { HeaderComponent } from "@/common/header-component";
 import { SideBarSlider } from "@/components/customcomponents/sidebar-slider";
 import { TabListDateFilter } from "@/components/customcomponents/tab-list-date-filter";
 import { BasicLayout } from "@/layout/basic-layout";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   SheetContent,
   SheetDescription,
@@ -12,6 +12,10 @@ import {
 } from "@/components/ui/sheet";
 import { AddtoProductsForm } from "@/components/customcomponents/add-to-products-form";
 import { useSelector } from "react-redux";
+import DataTable from "@/common/common-table/data-table";
+import { product_management_json } from "@/json/product-management-json";
+import { product_management_columns } from "@/common/common-table/product-management-columns";
+import { globalAddFunction } from "@/lib/global-add-function";
 
 type ProductManagementProps = {};
 
@@ -19,6 +23,29 @@ const ProductManagement = ({}: ProductManagementProps) => {
   const [showSideBarSlider, setShowSideBarSlider] = useState<true | false>(
     false
   );
+  const [ProductManagementJsonState, setProductManagementJsonState] = useState<object[]>(product_management_json); // setting the product json to the state
+  const [filtersState, setFilterState] = useState<any>("");
+  const added_product_object = useSelector((state:any)=>  state.productCRUD.product);
+
+
+
+  useEffect(()=>{
+    // enter all the logic of update the table.
+    if(added_product_object?.product_name){
+      const result = globalAddFunction(ProductManagementJsonState, added_product_object);
+      console.log("result", result);
+      setProductManagementJsonState(result);
+    }
+  },[added_product_object])
+
+  const getFilterState = useCallback((filter_state : any) => {
+    if(filter_state !== ""){
+      console.log("filter_state", filter_state)
+      setFilterState(filter_state)
+    }else{
+      setFilterState("")
+    }
+  },[filtersState, setFilterState])
 
   const update_data_product = useSelector(
     (state: any) => state.productCRUD.updateProduct
@@ -58,7 +85,14 @@ const ProductManagement = ({}: ProductManagementProps) => {
           />
         </div>
         <div>
-          <TabListDateFilter />
+          <TabListDateFilter getFilterStateParent={getFilterState}  />
+        </div>
+        <div>
+          <DataTable
+            columnsData={ProductManagementJsonState}
+            columnsHeadings={product_management_columns}
+            filter_status={filtersState} // optional
+          />
         </div>
       </BasicLayout>
     </>

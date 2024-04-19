@@ -6,7 +6,7 @@ interface TabComponentProps {
   tabList: object[];
   tabValue? : string
   children ? : React.ReactNode | React.ReactNode[];
-  getFilterData ? : (data: any) => void ;
+  getFilterData ?: any ;
 }
 
 export const TabComponent = ({ tabList, tabValue, getFilterData,  children }: TabComponentProps) => {
@@ -32,16 +32,6 @@ export const TabComponent = ({ tabList, tabValue, getFilterData,  children }: Ta
               )
             })}
           </TabsList>
-          {/* {tabListState &&
-            tabListState.map((tab: any, i: number) => {
-              return (
-                <>
-                  <TabsContent key={i} value={tab?.slug}>
-                    
-                  </TabsContent>
-                </>
-              );
-            })} */}
         </Tabs>
       </div>
     </>
