@@ -19,7 +19,7 @@ import { ModalWrapper } from "../modal-wrapper";
 import { globalDeleteFunction } from "@/lib/global-delete-function";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, updateProduct } from "@/redux/slices/product-CRUD";
-import { SideBarSlider } from "@/components/customcomponents/sidebar-slider";
+// import { SideBarSlider } from "@/components/customcomponents/sidebar-slider";
 import {
   SheetContent,
   SheetDescription,
@@ -31,7 +31,7 @@ import { AddtoProductsForm } from "@/components/customcomponents/add-to-products
 import { AddtoProductsFormJson } from "@/pages/product-management";
 import { filterTableData, globalFilterData } from "@/lib/global-filter-data";
 import { numberPrefixDollar } from "@/lib/number-prefix-dollar";
-import { globalDateConvert } from "@/lib/global-date-convert";
+// import { globalDateConvert } from "@/lib/global-date-convert";
 
 type DataTableTypes = {
   columnsHeadings: object[];
@@ -236,35 +236,42 @@ const DataTable = ({ columnsData, columnsHeadings, filter_status }: DataTableTyp
                     ) : (
                       <Table.Cell className="capitalize">
                         {/* {cell_data?.product_name} */}
-                        <h1 className="capitalize font-[500] text-gray-800">
+                        <h1 className="capitalize  text-text-primary-gray">
                           {cell_data?.product_name} 
                         </h1>
                       </Table.Cell>
                     )}
-                    {cell_data?.date && <Table.Cell className="capitalize">
-                      {cell_data?.date}
-                    </Table.Cell>}
+                    
                     {cell_data?.customer_name && <Table.Cell className="capitalize">
                       {cell_data?.customer_name}
                     </Table.Cell>}
-                    {cell_data?.total_amount ? <Table.Cell>{numberPrefixDollar(cell_data?.total_amount)}</Table.Cell> : null}
-                   {cell_data?.payment_date ? <Table.Cell>{cell_data?.payment_date}
+
+                    {(cell_data?.total_amount) ? <Table.Cell>{numberPrefixDollar(cell_data?.total_amount)}</Table.Cell> : null}
+
+                   {cell_data?.payment_date ? <Table.Cell>{(typeof cell_data?.payment_date) === "number" ? numberPrefixDollar(cell_data?.payment_date) : cell_data?.payment_date }
+                   </Table.Cell> : null}
+                   {cell_data?.Date ? <Table.Cell>{cell_data?.Date}
+                   </Table.Cell> : null}
+                   {cell_data?.expiry_date ? <Table.Cell>{cell_data?.expiry_date}
                    </Table.Cell> : null}
                     {cell_data?.status && <Table.Cell className="w-auto">
-                      {cell_data?.status === "pending" ? (
+                      {cell_data?.status === "pending" ||  cell_data?.status === "In Progress" ? (
                         <Badge color="yellow">{cell_data?.status}</Badge>
                       ) : cell_data?.status === "processing" ||
-                        cell_data?.status === "Low Stock" ? (
+                        cell_data?.status === "Low Stock" || cell_data?.status === "Shipped" ? (
                         <Badge color="blue">{cell_data?.status}</Badge>
                       ) : cell_data?.status === "Draft" ? (
                         <Badge color="gray">{cell_data?.status}</Badge>
                       ) : cell_data?.status === "success" ||
-                        cell_data?.status === "Published" ? (
+                        cell_data?.status === "Published" || cell_data?.status === "Delivered" || cell_data?.status === "Active" ? (
                         <Badge color="green">{cell_data?.status}</Badge>
                       ) : (
                         <Badge color="red">{cell_data?.status}</Badge>
                       )}
                       {/* <Badge color="orange">{cell_data?.status}</Badge> */}
+                    </Table.Cell>}
+                    {cell_data?.date && <Table.Cell className="capitalize">
+                      {cell_data?.date}
                     </Table.Cell>}
                     <Table.Cell>
                       {/* insert icons and give me product id */}

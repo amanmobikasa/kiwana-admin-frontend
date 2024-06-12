@@ -52,7 +52,7 @@ export const data = {
 
 export const BarChartComponent = () => {
     return <>
-    <Bar className='bg-white rounded-xl font-poppin' options={options} data={data} />;
+    <Bar className='bg-white rounded-xl font-poppin' options={options} data={data} /> 
     </>
 }
 

@@ -15,3 +15,7 @@
 .active{
   @apply bg-indigo-100 text-indigo-500
 }
+
+.banner_container{
+  @apply mt-[2rem] 
+}

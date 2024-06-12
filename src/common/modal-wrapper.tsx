@@ -13,8 +13,8 @@ import React from "react";
 interface ModalWrapperProps extends ComponentProps<typeof AlertDialogAction> {
   children?: React.ReactNode;
   title : string,
-  btnTitle : string | React.ReactNode | React.ReactNode[],
-  description : string | React.ReactNode | React.ReactNode[],
+  btnTitle : string | React.ReactNode | React.ReactNode[]
+  description : string | React.ReactNode | React.ReactNode[]
 }
 
 export const ModalWrapper = ({children, description, title, btnTitle, ref, ...props} : ModalWrapperProps) => {
@@ -35,3 +35,4 @@ export const ModalWrapper = ({children, description, title, btnTitle, ref, ...pr
     </>
   );
 };
+

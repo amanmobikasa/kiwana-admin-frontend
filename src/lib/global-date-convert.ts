@@ -25,4 +25,4 @@ const parseDate = (dateString: string, format: string): Date => {
 }
 
 
-// {globalDateConvert(cell_data?.payment_date, "YYYY-MM-DD", "MMMM do, yyyy")}
+// {globalDateConvert(cell_data?.payment_date, "YYYY-MM-DD", "MM,dd, yyyy")}
