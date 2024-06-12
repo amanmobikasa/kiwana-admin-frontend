@@ -1,7 +1,7 @@
 import { DashboardHeadingCommon } from "@/common/dashboard-heading-common";
 import { HeaderComponent } from "@/common/header-component";
 import { SideBarSlider } from "@/components/customcomponents/sidebar-slider";
-import { TabListDateFilter } from "@/components/customcomponents/tab-list-date-filter";
+import { TabListDateFilter, tab_list_json } from "@/components/customcomponents/tab-list-date-filter";
 import { BasicLayout } from "@/layout/basic-layout";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -85,7 +85,7 @@ const ProductManagement = ({}: ProductManagementProps) => {
           />
         </div>
         <div>
-          <TabListDateFilter getFilterStateParent={getFilterState}  />
+          <TabListDateFilter tablist_json={tab_list_json} getFilterStateParent={getFilterState}  />
         </div>
         <div>
           <DataTable

@@ -1,21 +1,25 @@
-import DataTable from "@/common/common-table/data-table";
-import { DashboardHeadingCommon } from "@/common/dashboard-heading-common";
-import { HeaderComponent } from "@/common/header-component";
-import { TabListDateFilter, tab_list_json } from "@/components/customcomponents/tab-list-date-filter";
-import { BasicLayout } from "@/layout/basic-layout";
-import { product_management_json } from "@/json/product-management-json";
+import DataTable from "@/common/common-table/data-table"
+import { DashboardHeadingCommon } from "@/common/dashboard-heading-common"
+import { HeaderComponent } from "@/common/header-component"
+import { TabListDateFilter } from "@/components/customcomponents/tab-list-date-filter"
+import { coupon_management_columns } from "@/json/coupon-columns-json"
+import { coupon_row_heading } from "@/json/coupon-row-heading-json"
+import { coupon_tab_filter_list } from "@/json/coupon-tab-filter-json"
+import { order_management_columns_json } from "@/json/orders-column-json"
+import { orders_row_heading } from "@/json/orders-row-heading"
+import { product_management_json } from "@/json/product-management-json"
+import { BasicLayout } from "@/layout/basic-layout"
+import { globalAddFunction } from "@/lib/global-add-function"
+import { useCallback, useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 
-import { useCallback, useEffect, useState } from "react";
-// import { product_management_columns } from "@/common/common-table/product-management-columns";
-import { useSelector } from "react-redux";
-import { globalAddFunction } from "@/lib/global-add-function";
-import { order_management_columns_json } from "@/json/orders-column-json";
-import { orders_row_heading } from "@/json/orders-row-heading";
-import { order_tab_filter_list } from "@/json/order-tab-filter-list-json";
 
-interface OrderProps {}
+interface CouponProps {
+    // insert the coupon props here
+}
 
-const OrderPage = ({}: OrderProps) => {
+const CouponPage =()=> {
+
   const [ProductManagementJsonState, setProductManagementJsonState] = useState<object[]>(product_management_json); // setting the product json to the state.
   const [filtersState, setFilterState] = useState<any>("");
 
@@ -47,31 +51,31 @@ const OrderPage = ({}: OrderProps) => {
 
   return (
     <>
-      <BasicLayout>
+       <BasicLayout>
         <div className="w-full font-poppin">
           <HeaderComponent />
         </div>
         <div>
           <DashboardHeadingCommon
-            headingState="Orders"
+            headingState="Coupon"
             buttonOneText="Export"
             buttonTwoText="Add to Product"
             clickAddtoProduct={(e) => handleSideBarSlider(e)}
           />
         </div>
         <div>
-          <TabListDateFilter tablist_json={order_tab_filter_list} getFilterStateParent={getFilterData} />
+          <TabListDateFilter tablist_json={coupon_tab_filter_list} getFilterStateParent={getFilterData} />
         </div>
         <div>
           <DataTable
-            columnsData={order_management_columns_json}
-            columnsHeadings={orders_row_heading}
+            columnsData={coupon_management_columns}
+            columnsHeadings={coupon_row_heading}
             filter_status={filtersState} // optional
           />
         </div>
-      </BasicLayout>
+      </BasicLayout>  
     </>
-  );
-};
+  )
+}
 
-export default OrderPage;
+export default CouponPage
